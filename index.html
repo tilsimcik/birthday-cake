@@ -49,6 +49,17 @@
   </style>
 </head>
 <body>
+
+<audio id="music" loop>
+    <source src="dogum-gunu.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Müziği başlatma butonu -->
+  <button onclick="document.getElementById('music').play()" 
+          style="margin: 20px; padding: 10px 20px; font-size: 16px; border-radius: 12px; cursor: pointer;">
+    Doğum günü şarkın olmadan pasta olmaz
+  </button>
+
   <div class="container">
     <h1>İyi Ki Varsın Yusuf ❤</h1>
 
@@ -71,7 +82,7 @@
       <button id="micBtn">Buna basıp üfle :)</button>
       <button id="blowBtn">Ama o çalışmadıysa sadece buna bas :/</button>
       <div class="meter" aria-label="Ses seviyesi"><span id="level"></span></div>
-      <div class="badge" id="hint">Mikrofonu başlat ve üfle</div>
+      <div class="badge" id="hint">Elif ❤ Yusuf</div>
     </div>
 
     <footer>Dilek tutmana gerek yok. Ben bizim için sonsuza kadar birlikte olacağımız bir ömür diledim.</footer>
@@ -108,7 +119,7 @@
         an.fftSize = 1024;
         const buf = new Uint8Array(an.fftSize);
         src.connect(an);
-        hint.textContent = 'Üfle bakalım... 🫧';
+        hint.textContent = 'Üfle bakalım...';
 
         const THRESHOLD = 22;   // 0..128 ölçeği (rms)
         const HOLD_MS = 180;    // bu kadar süre yüksek olursa söndür
