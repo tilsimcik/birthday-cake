@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> 7482 🎂</title>
+  <title>Birthday Cake 🎂</title>
   <style>
     :root { --cake:#ffb6c1; --icing:#fff; --plate:#d0d0d0; --candle:#7ad7ff; }
     *{box-sizing:border-box}
@@ -17,15 +17,15 @@
     .cake{ position:relative; width:320px; height:220px; margin:0 auto; }
     .plate{ position:absolute; bottom:0; left:50%; transform:translateX(-50%);
       width:360px; height:26px; background:radial-gradient(ellipse at center,#fff,#cfcfcf); border-radius:20px}
-    .cake-body{ position:relative;}
-    .icing{ position:absolute; top:-10px; left:0; height:50px; background:#fff;
-      border-radius:50% 50% 0 0; box-shadow: 0 6px 0 0 rgba(0,0,0,0.05)}
-    .drip{ position:absolute; top:0; width:22px; height:28px; background:var(--icing); border-radius:12px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);}
-    .drip.d1{ left:25%; height:26px}
-    .drip.d2{ left:50%; height:22px}
-    .drip.d3{ left:75%; height:24px}
-    .candles{ position:absolute; bottom:140px; left:50%; transform:translate(-50%); display:flex; gap:30px}
+    .cake-body{ position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+      width:300px; height:140px; background:var(--cake); border-radius:12px 12px 8px 8px; box-shadow: inset 0 10px 0 0 #ff8fb1; }
+    .icing{ position:absolute; top:-14px; left:0; right:0; height:28px; background:var(--icing);
+      border-radius:12px; box-shadow: 0 6px 0 0 rgba(0,0,0,0.05)}
+    .drip{ position:absolute; top:12px; width:22px; height:28px; background:var(--icing); border-radius:12px; }
+    .drip.d1{ left:60px; height:34px}
+    .drip.d2{ left:120px}
+    .drip.d3{ left:200px; height:30px}
+    .candles{ position:absolute; bottom:140px; left:50%; transform:translateX(-50%); display:flex; gap:30px}
     .candle{ position:relative; width:14px; height:60px; background:var(--candle); border-radius:6px; box-shadow: inset 0 -14px 0 rgba(0,0,0,0.1)}
     .candle::before{ content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:2px; height:10px; background:#333; border-radius:1px}
     .flame{ position:absolute; top:-22px; left:50%; transform:translateX(-50%); width:14px; height:22px;
@@ -50,7 +50,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>İyi Ki Varsın Bebiş ❤ </h1>
+    <h1>Mutlu Yıllar 🎉</h1>
 
     <div class="cake" id="cake">
       <div class="plate"></div>
@@ -68,12 +68,13 @@
     </div>
 
     <div class="controls">
-      <button id="micBtn">Buna basıp üfle :)</button>
-      <button id="blowBtn">Bir şekilde çalışmadıysa sadece buna bas :/</button>
+      <button id="micBtn">Mikrofonu Başlat</button>
+      <button id="blowBtn">Tıkla ve Üfle</button>
       <div class="meter" aria-label="Ses seviyesi"><span id="level"></span></div>
+      <div class="badge" id="hint">Mikrofonu başlat ve üfle 🔊</div>
     </div>
 
-    <footer>Dilek tutmana gerek yok. Ben bizim için sonsuza kadar birlikte olacağımız bir ömür diledim.</footer>
+    <footer>İpucu: Mikrofon izinlerini ver. Çalışmazsa “Tıkla ve Üfle”ye bas.</footer>
   </div>
 
   <script>
@@ -90,7 +91,7 @@
       if (blown) return;
       blown = true;
       candles.forEach(c => c.classList.add('out'));
-      hint.textContent = 'Dileğimi gerçek oldu! 🎂 Mumlar söndü.';
+      hint.textContent = 'Dilek tutuldu! 🎂 Mumlar söndü.';
     }
     blowBtn.addEventListener('click', blowOut);
 
