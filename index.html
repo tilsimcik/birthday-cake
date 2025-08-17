@@ -1,297 +1,161 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Elit 🎁 Hediye</title>
-<style>
-  :root{
-    --box-size: 280px;        /* masaüstü boyutu; mobilde küçülüyor */
-    --dark1: #1f1f22;        /* koyu ana */
-    --dark2: #2b2b2f;        /* hafif parlak */
-    --gloss: rgba(255,255,255,0.06);
-    --gold: rgba(208,170,66,1);
-    --shadow: rgba(0,0,0,0.45);
-    --accent: linear-gradient(145deg, #2b2b2f, #1f1f22);
-  }
-
-  *{box-sizing:border-box}
-  body{
-    min-height:100vh;
-    margin:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:14px;
-    background: linear-gradient(160deg,#ededed,#dcdcdc);
-    font-family: "Inter", "Segoe UI", Arial, sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-
-  /* container */
-  .gift-wrap {
-    width: var(--box-size);
-    height: var(--box-size);
-    position: relative;
-    perspective: 1200px;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-
-  /* rounded emoji-like box */
-  .gift-root {
-    width:100%;
-    height:100%;
-    border-radius: 26%;
-    position: absolute;
-    left:0; top:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transform-style: preserve-3d;
-    transition: transform 0.35s ease;
-  }
-
-  /* vertical ribbon (front) */
-  .ribbon-vert{
-    position:absolute;
-    width:22%;
-    height:120%;
-    left:39%;
-    top:-10%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.2));
-    transform: rotate(-4deg);
-    border-radius:14px;
-    z-index:4;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25) inset;
-  }
-
-  /* horizontal ribbon */
-  .ribbon-hor{
-    position:absolute;
-    height:20%;
-    width:120%;
-    top:39%;
-    left:-10%;
-    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(0,0,0,0.18));
-    transform: rotate(4deg);
-    border-radius:14px;
-    z-index:4;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25) inset;
-  }
-
-  /* lid (üst parça) - emoji havası için biraz daha şişkin) */
-  .lid {
-    position:absolute;
-    width:86%;
-    height:56%;
-    top:6%;
-    left:7%;
-    border-radius: 22% 22% 18% 18%;
-    background: var(--accent);
-    box-shadow: 0 18px 30px var(--shadow), inset 0 6px 18px rgba(255,255,255,0.02);
-    transform-origin: 50% 0%;
-    transition: transform 0.7s cubic-bezier(.2,.9,.25,1);
-    z-index: 8;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:visible;
-  }
-
-  /* body (iç) */
-  .box-body {
-    position:absolute;
-    width:86%;
-    height:78%;
-    top:18%;
-    left:7%;
-    border-radius: 20% 20% 26% 26%;
-    background: linear-gradient(180deg,var(--dark2), var(--dark1));
-    box-shadow: 0 20px 30px rgba(0,0,0,0.45), inset 0 -6px 18px rgba(255,255,255,0.02);
-    z-index:5;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
-
-  /* parlak yansıma efektleri - emoji gibi dolgunluk hissi verir */
-  .gift-root::before{
-    content:"";
-    position:absolute;
-    left:6%;
-    top:6%;
-    width:60%;
-    height:36%;
-    border-radius:50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
-    transform: rotate(-20deg);
-    pointer-events:none;
-    z-index:6;
-    filter: blur(6px);
-  }
-  .gift-root::after{
-    content:"";
-    position:absolute;
-    right:6%;
-    bottom:6%;
-    width:36%;
-    height:22%;
-    border-radius:40%;
-    background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(255,255,255,0.02));
-    pointer-events:none;
-    z-index:3;
-    filter: blur(6px);
-  }
-
-  /* fiyonk - emoji stilinin merkezi */
-  .bow {
-    position:absolute;
-    top:10%;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:12;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    pointer-events:none; /* tıklama kutuya gelsin */
-  }
-
-  .bow .loop {
-    width:64px; height:44px;
-    border-radius: 56% 44% 36% 44%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), var(--gold));
-    box-shadow: 0 6px 12px rgba(0,0,0,0.35);
-    transform-origin:center;
-  }
-
-  .bow .knot {
-    width:34px; height:34px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, #fff6d6, #c69c2b);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-    border: 2px solid rgba(255,255,255,0.04);
-  }
-
-  .bow .tail {
-    position:absolute;
-    top:46px;
-    width:18px; height:64px;
-    background: linear-gradient(180deg,#f7e6b0,#c69c2b);
-    border-radius:6px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.35);
-    transform-origin: top;
-  }
-  .bow .tail.left{ left: calc(50% - 62px); transform: rotate(-12deg); }
-  .bow .tail.right{ left: calc(50% + 44px); transform: rotate(12deg); }
-
-  /* içindeki resim - kutunun içinde düzgün görünmeli */
-  .gift-image {
-    width:92%;
-    height:92%;
-    object-fit:cover;
-    border-radius:12px;
-    display:block;
-    opacity:0;
-    transform: scale(0.98);
-    transition: opacity 0.45s ease, transform 0.45s ease;
-    z-index:6;
-  }
-
-  .gift-open .gift-image{
-    opacity:1;
-    transform: scale(1);
-  }
-
-  /* kapağın açık durumuna ait stil (rotateX yukarı doğru açma) */
-  .gift-open .lid{
-    transform: rotateX(-160deg) translateY(-8%);
-    box-shadow: 0 26px 40px rgba(0,0,0,0.55);
-  }
-
-  /* metin altındaki yazı */
-  .label {
-    font-weight:700;
-    color:#222;
-    font-size:18px;
-    letter-spacing:0.2px;
-  }
-
-  /* responsive */
-  @media (max-width:520px){
-    :root{ --box-size: 200px; }
-    .bow .loop{ width:48px; height:34px; }
-    .bow .knot{ width:24px; height:24px; }
-    .bow .tail{ width:14px; height:48px; top:36px; }
-    .label{ font-size:16px; }
-  }
-
-  /* küçük dokunuş: tıklayınca hafif basılma hissi */
-  .gift-wrap:active .gift-root{ transform: translateY(4px); transition:transform 0.12s; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>748b</title>
+  <style>
+    :root { --cake:#ffb6c1; --icing:#fff; --plate:#d0d0d0; --candle:#7ad7ff; }
+    *{box-sizing:border-box}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#fffbf0,#ffe7f0);
+      min-height:100vh; display:grid; place-items:center; margin:0
+    }
+    .container{ text-align:center; padding:24px}
+    h1{margin:8px 0 16px}
+    .cake{ position:relative; width:320px; height:220px; margin:0 auto; }
+    .plate{ position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:360px; height:26px; background:radial-gradient(ellipse at center,#fff,#cfcfcf); border-radius:20px}
+    .cake-body{ position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+      width:300px; height:140px; background:var(--cake); border-radius:12px 12px 8px 8px; box-shadow: inset 0 10px 0 0 #ff8fb1; }
+    .icing{ position:absolute; top:-14px; left:0; right:0; height:28px; background:var(--icing);
+      border-radius:12px; box-shadow: 0 6px 0 0 rgba(0,0,0,0.05)}
+    .drip{ position:absolute; top:12px; width:22px; height:28px; background:var(--icing); border-radius:12px; }
+    .drip.d1{ left:95px; height:20px}
+    .drip.d2{ left:139px; height:20px}
+    .drip.d3{ left:183px; height:20px}
+    .candles{ position:absolute; bottom:140px; left:50%; transform:translateX(-50%); display:flex; gap:30px}
+    .candle{ position:relative; width:14px; height:60px; background:var(--candle); border-radius:6px; box-shadow: inset 0 -14px 0 rgba(0,0,0,0.1)}
+    .candle::before{ content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:2px; height:10px; background:#333; border-radius:1px}
+    .flame{ position:absolute; top:-22px; left:50%; transform:translateX(-50%); width:14px; height:22px;
+      background: radial-gradient(ellipse at center, #fff 0%, #ffd966 40%, #ff8c1a 60%, rgba(255,136,0,0.9) 100%);
+      border-radius:8px 8px 12px 12px; filter: blur(0.4px); animation:flicker 0.12s infinite alternate;
+      box-shadow: 0 0 16px rgba(255,153,0,.8);}
+    @keyframes flicker{ from{ transform: translateX(-50%) scale(1) } to{ transform: translateX(-50%) scale(0.9) translateY(-1px) } }
+    .smoke{ position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:2px; height:2px; background: transparent; opacity:0; }
+    .candle.out .flame{ opacity:0; box-shadow:none; animation:none}
+    .candle.out .smoke{ animation: smoke 1.6s ease-out forwards}
+    @keyframes smoke{
+      0%{ opacity:0.7; box-shadow: 0 0 6px rgba(120,120,120,.6); transform:translateX(-50%) translateY(0) scale(1) }
+      100%{ opacity:0; box-shadow: none; transform:translateX(-50%) translateY(-40px) scale(2) }
+    }
+    .meter{ height:8px; width:220px; background:#eee; border-radius:999px; margin:10px auto; overflow:hidden}
+    .meter > span{ display:block; height:100%; width:0%;}
+    .controls button{ margin:6px; padding:10px 14px; border:none; border-radius:12px; background:#111; color:white; cursor:pointer; }
+    .controls button:disabled{opacity:.6; cursor:not-allowed}
+    .badge{font-size:14px; margin-top:6px}
+    footer{ margin-top:10px; font-size:12px; opacity:.6}
+  </style>
 </head>
 <body>
 
-  <div class="gift-wrap" id="giftWrap" aria-label="21 yaş hediye kutusu" role="button" tabindex="0">
-    <div class="gift-root">
-      <div class="ribbon-vert" aria-hidden="true"></div>
-      <div class="ribbon-hor" aria-hidden="true"></div>
 
-      <div class="lid" id="lid"></div>
+<audio id="music" loop>
+    <source src="dgko.mp3" type="audio/mpeg">
+  </audio>
 
-      <div class="box-body">
-        <!-- hediye resmi: aynı klasöre hediye.jpg koy veya burada kendi dosya adını ver -->
-        <img src="hediye.jpg" alt="Hediye içi" class="gift-image" id="giftImage">
+  <!-- Müziği başlatma butonu -->
+  <button onclick="document.getElementById('music').play()" 
+          style="margin: 20px; padding: 10px 20px; font-size: 16px; border-radius: 12px; cursor: pointer;">
+    Doğum günü şarkını dinlemek için buraya bas!
+  </button>
+
+  <div class="container">
+    <h1>İyi Ki Varsın Yusuf ❤</h1>
+
+    <div class="cake" id="cake">
+      <div class="plate"></div>
+      <div class="cake-body">
+        <div class="icing"></div>
+        <div class="drip d1"></div>
+        <div class="drip d2"></div>
+        <div class="drip d3"></div>
       </div>
-
-      <div class="bow" aria-hidden="true">
-        <div class="tail left"></div>
-        <div class="loop"></div>
-        <div class="knot"></div>
-        <div class="loop"></div>
-        <div class="tail right"></div>
+      <div class="candles" id="candles">
+        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
+        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
+        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
       </div>
     </div>
+
+    <div class="controls">
+      <button id="micBtn">Buna basıp üfle :)</button>
+      <button id="blowBtn">Ama o çalışmadıysa sadece buna bas :/</button>
+      <div class="meter" aria-label="Ses seviyesi"><span id="level"></span></div>
+      <div class="badge" id="hint">Elif ❤ Yusuf</div>
+    </div>
+
+    <footer>Dilek tutmana gerek yok. Ben bizim için sonsuza kadar birlikte olacağımız bir ömür diledim.</footer>
   </div>
 
-  <div class="label">21. yaş günü hediyen</div>
+  <script>
+    const candles = [...document.querySelectorAll('.candle')];
+    const hint = document.getElementById('hint');
+    const levelBar = document.getElementById('level');
+    const micBtn = document.getElementById('micBtn');
+    const blowBtn = document.getElementById('blowBtn');
 
-<script>
-  const wrap = document.getElementById('giftWrap');
-  const root = wrap.querySelector('.gift-root');
-  const lid = document.getElementById('lid');
-  const img = document.getElementById('giftImage');
+    let audioCtx, analyser, dataArray, rafId, blown = false;
 
-  function toggleOpen() {
-    root.classList.toggle('gift-open');
-    // resim görünürlüğünü (yüklenmişse) kontrol et
-    if(root.classList.contains('gift-open')){
-      // yüklenmemişse gösterilmesini bekle
-      if(img.complete){
-        img.style.opacity = '1';
-        img.style.transform = 'scale(1)';
-      } else {
-        img.addEventListener('load', () => {
-          img.style.opacity = '1';
-          img.style.transform = 'scale(1)';
-        }, {once:true});
+    function setLevel(pct){ levelBar.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
+    function blowOut(){
+      if (blown) return;
+      blown = true;
+      candles.forEach(c => c.classList.add('out'));
+      hint.textContent = 'Dileğimiz gerçek oldu! 🎂 Mumlar söndü.';
+    }
+    blowBtn.addEventListener('click', blowOut);
+
+    micBtn.addEventListener('click', async () => {
+      try{
+        micBtn.disabled = true;
+        const AC = window.AudioContext || window.webkitAudioContext;
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation:true, noiseSuppression:true, channelCount:1 }
+        });
+        const ctx = new AC();
+        const src = ctx.createMediaStreamSource(stream);
+        const an = ctx.createAnalyser();
+        an.fftSize = 1024;
+        const buf = new Uint8Array(an.fftSize);
+        src.connect(an);
+        hint.textContent = 'Üfle bakalım...';
+
+        const THRESHOLD = 22;   // 0..128 ölçeği (rms)
+        const HOLD_MS = 180;    // bu kadar süre yüksek olursa söndür
+        let aboveFor = 0;
+
+        const tick = () => {
+          an.getByteTimeDomainData(buf);
+          let sum = 0;
+          for (let i=0;i<buf.length;i++){ const v = buf[i]-128; sum += v*v; }
+          const rms = Math.sqrt(sum/buf.length);
+          const pct = (rms/64)*100;
+          setLevel(pct);
+
+          if (rms > THRESHOLD){
+            aboveFor += 16;
+            if (aboveFor >= HOLD_MS){ blowOut(); }
+          } else {
+            aboveFor = Math.max(0, aboveFor - 24);
+          }
+          if (!blown) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }catch(e){
+        console.error(e);
+        hint.textContent = 'Mikrofon izni alınamadı';
+        micBtn.disabled = false;
       }
-    } else {
-      img.style.opacity = '0';
-      img.style.transform = 'scale(0.98)';
-    }
-  }
+    });
 
-  // tıklama ve klavye ile erişim
-  wrap.addEventListener('click', toggleOpen);
-  wrap.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      toggleOpen();
-    }
-  });
-</script>
+    // Pasta üzerine çift tıkla → tekrar yak (sayfayı yenilemeden)
+    document.getElementById('cake').addEventListener('dblclick', () => {
+      blown = false;
+      candles.forEach(c => c.classList.remove('out'));
+      hint.textContent = 'Tekrar üfle! 🎈';
+    });
+  </script>
 </body>
 </html>
