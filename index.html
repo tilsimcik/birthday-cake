@@ -1,161 +1,88 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>748b</title>
-  <style>
-    :root { --cake:#ffb6c1; --icing:#fff; --plate:#d0d0d0; --candle:#7ad7ff; }
-    *{box-sizing:border-box}
-    body{
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:linear-gradient(180deg,#fffbf0,#ffe7f0);
-      min-height:100vh; display:grid; place-items:center; margin:0
-    }
-    .container{ text-align:center; padding:24px}
-    h1{margin:8px 0 16px}
-    .cake{ position:relative; width:320px; height:220px; margin:0 auto; }
-    .plate{ position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-      width:360px; height:26px; background:radial-gradient(ellipse at center,#fff,#cfcfcf); border-radius:20px}
-    .cake-body{ position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
-      width:300px; height:140px; background:var(--cake); border-radius:12px 12px 8px 8px; box-shadow: inset 0 10px 0 0 #ff8fb1; }
-    .icing{ position:absolute; top:-14px; left:0; right:0; height:28px; background:var(--icing);
-      border-radius:12px; box-shadow: 0 6px 0 0 rgba(0,0,0,0.05)}
-    .drip{ position:absolute; top:12px; width:22px; height:28px; background:var(--icing); border-radius:12px; }
-    .drip.d1{ left:95px; height:20px}
-    .drip.d2{ left:139px; height:20px}
-    .drip.d3{ left:183px; height:20px}
-    .candles{ position:absolute; bottom:140px; left:50%; transform:translateX(-50%); display:flex; gap:30px}
-    .candle{ position:relative; width:14px; height:60px; background:var(--candle); border-radius:6px; box-shadow: inset 0 -14px 0 rgba(0,0,0,0.1)}
-    .candle::before{ content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:2px; height:10px; background:#333; border-radius:1px}
-    .flame{ position:absolute; top:-22px; left:50%; transform:translateX(-50%); width:14px; height:22px;
-      background: radial-gradient(ellipse at center, #fff 0%, #ffd966 40%, #ff8c1a 60%, rgba(255,136,0,0.9) 100%);
-      border-radius:8px 8px 12px 12px; filter: blur(0.4px); animation:flicker 0.12s infinite alternate;
-      box-shadow: 0 0 16px rgba(255,153,0,.8);}
-    @keyframes flicker{ from{ transform: translateX(-50%) scale(1) } to{ transform: translateX(-50%) scale(0.9) translateY(-1px) } }
-    .smoke{ position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:2px; height:2px; background: transparent; opacity:0; }
-    .candle.out .flame{ opacity:0; box-shadow:none; animation:none}
-    .candle.out .smoke{ animation: smoke 1.6s ease-out forwards}
-    @keyframes smoke{
-      0%{ opacity:0.7; box-shadow: 0 0 6px rgba(120,120,120,.6); transform:translateX(-50%) translateY(0) scale(1) }
-      100%{ opacity:0; box-shadow: none; transform:translateX(-50%) translateY(-40px) scale(2) }
-    }
-    .meter{ height:8px; width:220px; background:#eee; border-radius:999px; margin:10px auto; overflow:hidden}
-    .meter > span{ display:block; height:100%; width:0%;}
-    .controls button{ margin:6px; padding:10px 14px; border:none; border-radius:12px; background:#111; color:white; cursor:pointer; }
-    .controls button:disabled{opacity:.6; cursor:not-allowed}
-    .badge{font-size:14px; margin-top:6px}
-    footer{ margin-top:10px; font-size:12px; opacity:.6}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doğum Günü Hediyesi</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fce4ec;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  .gift-box {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .lid, .box {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    left: 0;
+    transition: transform 0.6s;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .lid {
+    top: 0;
+    background-color: #ff4081;
+    transform-origin: top;
+    z-index: 2;
+  }
+
+  .box {
+    top: 50%;
+    background-color: #f48fb1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lid.open {
+    transform: rotateX(-180deg);
+  }
+
+  .gift-image {
+    max-width: 100%;
+    max-height: 100%;
+    display: none;
+    border-radius: 10px;
+  }
+
+  .gift-image.show {
+    display: block;
+  }
+</style>
 </head>
 <body>
 
-
-<audio id="music" loop>
-    <source src="dgko.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Müziği başlatma butonu -->
-  <button onclick="document.getElementById('music').play()" 
-          style="margin: 20px; padding: 10px 20px; font-size: 16px; border-radius: 12px; cursor: pointer;">
-    Doğum günü şarkını dinlemek için buraya bas!
-  </button>
-
-  <div class="container">
-    <h1>İyi Ki Varsın Yusuf ❤</h1>
-
-    <div class="cake" id="cake">
-      <div class="plate"></div>
-      <div class="cake-body">
-        <div class="icing"></div>
-        <div class="drip d1"></div>
-        <div class="drip d2"></div>
-        <div class="drip d3"></div>
-      </div>
-      <div class="candles" id="candles">
-        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
-        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
-        <div class="candle"><span class="flame"></span><span class="smoke"></span></div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="micBtn">Buna basıp üfle :)</button>
-      <button id="blowBtn">Ama o çalışmadıysa sadece buna bas :/</button>
-      <div class="meter" aria-label="Ses seviyesi"><span id="level"></span></div>
-      <div class="badge" id="hint">Elif ❤ Yusuf</div>
-    </div>
-
-    <footer>Dilek tutmana gerek yok. Ben bizim için sonsuza kadar birlikte olacağımız bir ömür diledim.</footer>
+<div class="gift-box" id="giftBox">
+  <div class="lid" id="lid"></div>
+  <div class="box">
+    <img src="hediye.jpg" alt="Hediye" class="gift-image" id="giftImage">
   </div>
+</div>
 
-  <script>
-    const candles = [...document.querySelectorAll('.candle')];
-    const hint = document.getElementById('hint');
-    const levelBar = document.getElementById('level');
-    const micBtn = document.getElementById('micBtn');
-    const blowBtn = document.getElementById('blowBtn');
+<script>
+  const giftBox = document.getElementById('giftBox');
+  const lid = document.getElementById('lid');
+  const giftImage = document.getElementById('giftImage');
 
-    let audioCtx, analyser, dataArray, rafId, blown = false;
+  giftBox.addEventListener('click', () => {
+    lid.classList.toggle('open');
+    giftImage.classList.toggle('show');
+  });
+</script>
 
-    function setLevel(pct){ levelBar.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
-    function blowOut(){
-      if (blown) return;
-      blown = true;
-      candles.forEach(c => c.classList.add('out'));
-      hint.textContent = 'Dileğimiz gerçek oldu! 🎂 Mumlar söndü.';
-    }
-    blowBtn.addEventListener('click', blowOut);
-
-    micBtn.addEventListener('click', async () => {
-      try{
-        micBtn.disabled = true;
-        const AC = window.AudioContext || window.webkitAudioContext;
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: { echoCancellation:true, noiseSuppression:true, channelCount:1 }
-        });
-        const ctx = new AC();
-        const src = ctx.createMediaStreamSource(stream);
-        const an = ctx.createAnalyser();
-        an.fftSize = 1024;
-        const buf = new Uint8Array(an.fftSize);
-        src.connect(an);
-        hint.textContent = 'Üfle bakalım...';
-
-        const THRESHOLD = 22;   // 0..128 ölçeği (rms)
-        const HOLD_MS = 180;    // bu kadar süre yüksek olursa söndür
-        let aboveFor = 0;
-
-        const tick = () => {
-          an.getByteTimeDomainData(buf);
-          let sum = 0;
-          for (let i=0;i<buf.length;i++){ const v = buf[i]-128; sum += v*v; }
-          const rms = Math.sqrt(sum/buf.length);
-          const pct = (rms/64)*100;
-          setLevel(pct);
-
-          if (rms > THRESHOLD){
-            aboveFor += 16;
-            if (aboveFor >= HOLD_MS){ blowOut(); }
-          } else {
-            aboveFor = Math.max(0, aboveFor - 24);
-          }
-          if (!blown) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }catch(e){
-        console.error(e);
-        hint.textContent = 'Mikrofon izni alınamadı';
-        micBtn.disabled = false;
-      }
-    });
-
-    // Pasta üzerine çift tıkla → tekrar yak (sayfayı yenilemeden)
-    document.getElementById('cake').addEventListener('dblclick', () => {
-      blown = false;
-      candles.forEach(c => c.classList.remove('out'));
-      hint.textContent = 'Tekrar üfle! 🎈';
-    });
-  </script>
 </body>
 </html>
