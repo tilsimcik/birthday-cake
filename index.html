@@ -25,7 +25,7 @@
     .drip.d1{ left:60px; height:34px}
     .drip.d2{ left:120px}
     .drip.d3{ left:200px; height:30px}
-    .candles{ position:absolute; bottom:140px; left:50%; transform:translateX(-50%); display:flex; gap:30px}
+    .candles{ position:absolute; top:0; left:50%; transform:translate(-50%, -100%); display:flex; gap:30px}
     .candle{ position:relative; width:14px; height:60px; background:var(--candle); border-radius:6px; box-shadow: inset 0 -14px 0 rgba(0,0,0,0.1)}
     .candle::before{ content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:2px; height:10px; background:#333; border-radius:1px}
     .flame{ position:absolute; top:-22px; left:50%; transform:translateX(-50%); width:14px; height:22px;
@@ -71,7 +71,6 @@
       <button id="micBtn">Buna basıp üfle :)</button>
       <button id="blowBtn">Bir şekilde çalışmadıysa sadece buna bas :/</button>
       <div class="meter" aria-label="Ses seviyesi"><span id="level"></span></div>
-     // <div class="badge" id="hint">Mikrofonu başlat ve üfle 🔊</div>
     </div>
 
     <footer>Dilek tutmana gerek yok. Ben bizim için sonsuza kadar birlikte olacağımız bir ömür diledim.</footer>
@@ -91,7 +90,7 @@
       if (blown) return;
       blown = true;
       candles.forEach(c => c.classList.add('out'));
-      hint.textContent = 'Dilek tutuldu! 🎂 Mumlar söndü.';
+      hint.textContent = 'Dileğimi gerçek oldu! 🎂 Mumlar söndü.';
     }
     blowBtn.addEventListener('click', blowOut);
 
